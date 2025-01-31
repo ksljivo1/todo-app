@@ -29,9 +29,8 @@ export function AIHelperButton(props) {
                         placeholder="Enter a goal, and I'll generate tasks for you"
                     />
                     <button onClick={ async () => {
-                        const test = import.meta.env.VITE_TEST
-                        console.log(test)
-                        const genAi = new GoogleGenerativeAI(test);
+                        const apiKey = import.meta.env.VITE_API_KEY
+                        const genAi = new GoogleGenerativeAI(apiKey)
                         const model = genAi.getGenerativeModel({model: "gemini-pro"})
 
                         const result = await model.generateContent(inputValue + `this was the goal, since im using 
@@ -42,7 +41,6 @@ export function AIHelperButton(props) {
 
                         try {
                             const tasks = JSON.parse(jsonString).map(obj => obj.task || obj)
-                            console.log(tasks)
 
                             if (tasks.length === 0) return
 

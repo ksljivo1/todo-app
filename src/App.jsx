@@ -2,29 +2,34 @@ import {Header} from "./components/Header.jsx";
 import {Tabs} from "./components/Tabs.jsx";
 import {TodoList} from "./components/TodoList.jsx";
 import {TodoInput} from "./components/TodoInput.jsx";
+import {AIHelperButton} from "./components/AIHelperButton.jsx";
+
 import "./fanta.css"
 
 import {useState, useEffect} from "react";
 
-function App() {
-    // const todos = [
-    //     { input: "Buy groceries", complete: false },
-    //     { input: "Clean the house", complete: true },
-    //     { input: "Hello! Add your first todo!", complete: false },
-    //     { input: "Exercise for 30 minutes", complete: true }
-    // ];
 
+function App() {
     const [todos, setTodos] = useState([
         { input: "Hello! Add your first todo!", complete: true }
     ]);
 
     const [selectedTab, setSelectedTab] = useState("Open");
 
+    // function handleAddTodo(newTodo) {
+    //     const newTodoList = [...todos, { input: newTodo, complete: false }];
+    //     setTodos(newTodoList)
+    //     handleSaveData(newTodoList)
+    // }
+
     function handleAddTodo(newTodo) {
-        const newTodoList = [...todos, { input: newTodo, complete: false }];
-        setTodos(newTodoList)
-        handleSaveData(newTodoList)
+        setTodos(prevTodos => {
+            const newTodoList = [...prevTodos, { input: newTodo, complete: false }];
+            handleSaveData(newTodoList);
+            return newTodoList;
+        });
     }
+
 
     function handleCompleteTodo(index) {
         let newTodoList = [...todos]
@@ -59,6 +64,7 @@ function App() {
         <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} todos={todos}/>
         <TodoList handleCompleteTodo={handleCompleteTodo} handleDeleteTodo={handleDeleteTodo} selectedTab={selectedTab} todos={todos}/>
         <TodoInput handleAddTodo={handleAddTodo}/>
+        <AIHelperButton handleAddTodo={handleAddTodo}/>
     </>
     )
 }
